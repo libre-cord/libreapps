@@ -18,6 +18,10 @@
         "start": "bun run build && electron .",
         "dist": "bun run build && electron-builder"
     },
+    "optionalDependencies": {
+        "@vencord/venmic": "^7.2.5"
+    },
+
     "devDependencies": {
         "@types/node": "^24.10.1",
         "electron": "45.3.1",
@@ -26,7 +30,6 @@
     },
     "trustedDependencies": ["electron"],
     "dependencies": {
-        "@vencord/venmic": "^7.2.5",
         "arrpc": "^3.6.0"
     }
 }

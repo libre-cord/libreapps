@@ -42,6 +42,8 @@ dmg:
   title: Discord OSS
 win:
   icon: resources/icon.png
+ignoredProductionDependencies:
+  - "@vencord/venmic"
   target:
     - target: nsis
       arch: [x64, arm64]
