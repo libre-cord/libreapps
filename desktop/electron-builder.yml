@@ -19,8 +19,6 @@ protocols:
   - name: Discord OSS
     schemes:
       - discord-oss
-ignoredProductionDependencies:
-  - "@vencord/venmic"
 mac:
   category: public.app-category.social-networking
   icon: resources/icon.png
