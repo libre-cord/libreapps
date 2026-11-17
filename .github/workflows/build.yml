@@ -34,7 +34,12 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./desktop
-        run: bun install
+        run: |
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            npm install
+          else
+            bun install
+          fi
 
       - name: Rebuild native dependencies
         working-directory: ./desktop
