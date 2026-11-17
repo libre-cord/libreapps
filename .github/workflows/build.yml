@@ -1,0 +1,43 @@
+name: Build and Release Electron App
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers only when pushing tags starting with v, e.g., v1.0.0
+
+# Critical: Grant write permissions to the workflow so GITHUB_TOKEN can create releases and upload assets
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Rebuild native dependencies
+        run: bunx electron-builder install-app-deps
+
+      - name: Build frontend
+        run: bun run build
+
+      - name: Package and Publish
+        # Use --publish always to upload to the GitHub Release corresponding to the tag
+        # GH_TOKEN is required for electron-builder to authenticate with GitHub
+        run: bunx electron-builder --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
