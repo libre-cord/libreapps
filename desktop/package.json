@@ -1,14 +1,14 @@
 {
-    "name": "discord-oss-desktop",
-    "productName": "Discord OSS",
+    "name": "librecord-desktop",
+    "productName": "Librecord",
     "version": "1.0.0",
     "repository": {
     "type": "git",
     "url": "https://github.com/libre-cord/libreapps.git"
   },
-    "description": "Discord OSS for macOS, Windows and Linux",
-    "author": "Discord OSS contributors",
-    "homepage": "https://github.com/wypiek/discord-oss",
+    "description": "Librecord for macOS, Windows and Linux",
+    "author": "Librecord contributors",
+    "homepage": "https://github.com/libre-cord",
     "license": "AGPL-3.0-only",
     "private": true,
     "main": "dist/main.js",

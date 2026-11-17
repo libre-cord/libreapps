@@ -1,8 +1,8 @@
-appId: org.discordoss.app
-productName: Discord OSS
-executableName: discord-oss
-copyright: Copyright © Discord OSS contributors
-artifactName: Discord-OSS-${version}-${os}-${arch}.${ext}
+appId: org.librecord.app
+productName: Librecord
+executableName: librecord
+copyright: Copyright © Librecord contributors
+artifactName: Librecord-${version}-${os}-${arch}.${ext}
 directories:
   output: release
   buildResources: resources
@@ -16,9 +16,9 @@ publish:
   provider: github
   releaseType: draft
 protocols:
-  - name: Discord OSS
+  - name: Librecord
     schemes:
-      - discord-oss
+      - librecord
 mac:
   category: public.app-category.social-networking
   icon: resources/icon.png
@@ -28,18 +28,18 @@ mac:
   entitlements: resources/entitlements.mac.plist
   entitlementsInherit: resources/entitlements.mac.plist
   extendInfo:
-    NSMicrophoneUsageDescription: Discord OSS uses the microphone for voice chat and calls.
-    NSCameraUsageDescription: Discord OSS uses the camera for video calls.
-    NSAudioCaptureUsageDescription: Discord OSS shares your computer's audio when you stream your screen.
-    NSScreenCaptureUsageDescription: Discord OSS shares your screen when you go live.
-    NSAppleEventsUsageDescription: Discord OSS reads the song playing in Spotify to show it on your profile.
+    NSMicrophoneUsageDescription: Librecord uses the microphone for voice chat and calls.
+    NSCameraUsageDescription: Librecord uses the camera for video calls.
+    NSAudioCaptureUsageDescription: Librecord shares your computer's audio when you stream your screen.
+    NSScreenCaptureUsageDescription: Librecord shares your screen when you go live.
+    NSAppleEventsUsageDescription: Librecord reads the song playing in Spotify to show it on your profile.
   target:
     - target: dmg
       arch: [universal]
     - target: zip
       arch: [universal]
 dmg:
-  title: Discord OSS
+  title: Librecord
 win:
   icon: resources/icon.png
   target:
@@ -50,17 +50,17 @@ nsis:
   perMachine: false
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: Discord OSS
-  uninstallDisplayName: Discord OSS
+  shortcutName: Librecord
+  uninstallDisplayName: Librecord
 linux:
   icon: resources/icon.png
   category: Network;InstantMessaging;Chat
-  maintainer: Discord OSS contributors
-  synopsis: Discord OSS desktop app
+  maintainer: Librecord contributors
+  synopsis: Librecord desktop app
   desktop:
     entry:
-      Name: Discord OSS
-      StartupWMClass: Discord OSS
+      Name: Librecord
+      StartupWMClass: Librecord
   target:
     - target: AppImage
       arch: [x64, arm64]
