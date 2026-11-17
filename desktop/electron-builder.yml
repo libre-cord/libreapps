@@ -12,7 +12,9 @@ files:
   - resources/**/*
   - package.json
 asar: true
-publish: null
+publish:
+  provider: github
+  releaseType: draft
 protocols:
   - name: Discord OSS
     schemes:
