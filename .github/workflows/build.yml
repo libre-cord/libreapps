@@ -32,14 +32,15 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y rpm libarchive-tools
 
-      - name: Install dependencies
+      - name: Install dependencies (Windows)
+        if: runner.os == 'Windows'
         working-directory: ./desktop
-        run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            npm install
-          else
-            bun install
-          fi
+        run: npm install
+
+      - name: Install dependencies (macOS/Linux)
+        if: runner.os != 'Windows'
+        working-directory: ./desktop
+        run: bun install
 
       - name: Rebuild native dependencies
         working-directory: ./desktop
