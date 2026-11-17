@@ -19,6 +19,8 @@ protocols:
   - name: Discord OSS
     schemes:
       - discord-oss
+ignoredProductionDependencies:
+  - "@vencord/venmic"
 mac:
   category: public.app-category.social-networking
   icon: resources/icon.png
@@ -42,8 +44,6 @@ dmg:
   title: Discord OSS
 win:
   icon: resources/icon.png
-  ignoredProductionDependencies:
-    - "@vencord/venmic"
   target:
     - target: nsis
       arch: [x64, arm64]
