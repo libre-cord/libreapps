@@ -1,0 +1,47 @@
+# Librecord Apps
+
+The desktop and Android apps for [Librecord](https://github.com/libre-cord/librecord) instances, and the instance switcher that adds itself to Discord's own desktop apps. Each app loads an instance's web client, so people get the app they already know pointed at a server you run, and each one keeps a list of saved instances to switch between.
+
+> Librecord is not made by, affiliated with or endorsed by Discord Inc. Accounts are separate from Discord accounts, and nothing posted on an instance is sent to Discord.
+
+## What's here
+
+| Part | Where | What it is |
+| --- | --- | --- |
+| Desktop app | `desktop` | Librecord for macOS, Windows and Linux. |
+| Android app | `mobile` | Librecord for Android. |
+| Official desktop switcher | `official-desktop` | Adds an instance switcher to Discord's own desktop apps. |
+| App icon | `icon` | The Librecord icon in PNG and SVG. |
+
+## The apps
+
+- **Desktop:** an Electron shell that opens an instance's web client with voice, video, Go Live and screen sharing through a picker for the window, screen or tab to share. The `librecord://` link protocol, an autostart entry on Linux, games detected on the computer handed to the client through the `window.Librecord` bridge, and what plays in Spotify handed to the client the same way. The instance switcher sits under File > Switch Instance and in the tray, with `Ctrl+Shift+O` (`Cmd+Shift+O` on macOS), and pages from an instance can call `window.Librecord.openInstanceSwitcher()`.
+- **Android:** a Capacitor app that opens an instance's web client. The Back button on the first page of an instance opens the switcher, Back on the switcher returns to the instance, and a long press on the app icon has a Switch instance shortcut. Pages can call the switcher through the same bridge.
+- **Official desktop switcher:** a small installer that patches Discord's own stable, PTB, Canary and Development apps on the user's computer, adding Switch instance to their menus and the same shortcut. It writes its own files into the app's core as `librecord_switcher`, upgrades installs made by the earlier `discord_oss_switcher` and undoes both when uninstalled. Run it without arguments for usage, and re-run install after every Discord update replaces the core.
+
+## Finding instances
+
+Every app finds and checks instances the same way: it reads `/.well-known/librecord` on the host and accepts the response when its `software.name` is `librecord`. A Librecord server serves this by default. The apps keep their saved instances themselves, the desktop app under its own settings file, the Android app in its local storage and the official switcher in the Discord profile's user data.
+
+## Develop
+
+Install Bun 1.4, then `bun install` in the folder you want to work on.
+
+| Command | Where | What it does |
+| --- | --- | --- |
+| `bun run typecheck` | `desktop`, `mobile`, `official-desktop` | Typechecks the app. |
+| `bun run dist` | `desktop` | Builds and packages installers for every platform into `release`. |
+| `bun run installer` | `official-desktop` | Compiles the switcher installer into `dist`. |
+| `bun run build` | `mobile` | Compiles the TypeScript before Capacitor packs the APK from `mobile/android`. |
+
+Pushing a `v*` tag builds the desktop app on GitHub for macOS, Windows and Linux and collects the installers in a draft release, ready to publish.
+
+## Credits
+
+These apps build on [Librecord](https://github.com/libre-cord/librecord), on [Electron](https://github.com/electron/electron) and [Capacitor](https://github.com/ionic-team/capacitor), and on the `electron-builder` toolchain.
+
+Discord's desktop apps and their artwork belong to Discord Inc. The switcher only patches an app the user already installed, and no Discord code is in this repository.
+
+## License
+
+GNU Affero General Public License v3.0, as declared in each app's `package.json`. If you run a modified app for other people, you must offer them its source code.
