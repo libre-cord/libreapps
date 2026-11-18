@@ -1,5 +1,5 @@
-const STORE_KEY = "discord-oss.instances";
-const CURRENT_KEY = "discord-oss.current";
+const STORE_KEY = "librecord.instances";
+const CURRENT_KEY = "librecord.current";
 const localHost = /^(localhost|127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|[^.]+\.local)(:\d+)?$/i;
 
 const card = document.getElementById("card") as HTMLElement;
@@ -24,7 +24,7 @@ function storeInstances(instances: SavedInstance[]) {
 
 function normalize(input: string) {
     const text = input.trim();
-    if (!text) throw new Error("Enter the address of a Discord OSS instance.");
+    if (!text) throw new Error("Enter the address of a Librecord instance.");
     const withScheme = /^[a-z][a-z0-9+.-]*:\/\//i.test(text) ? text : `${localHost.test(text.split("/")[0]) ? "http" : "https"}://${text}`;
     const url = new URL(withScheme);
     if (url.protocol !== "https:" && url.protocol !== "http:") throw new Error("Only http and https addresses work.");
@@ -36,20 +36,20 @@ async function discover(input: string): Promise<Omit<SavedInstance, "lastUsed">>
     const host = new URL(origin).host;
     let response: Response;
     try {
-        response = await fetch(`${origin}/.well-known/discord-oss`, { headers: { accept: "application/json" } });
+        response = await fetch(`${origin}/.well-known/librecord`, { headers: { accept: "application/json" } });
     } catch {
         throw new Error(`Couldn't reach ${host}. Check the address and your connection.`);
     }
-    if (!response.ok) throw new Error(`${host} isn't a Discord OSS instance (HTTP ${response.status}).`);
+    if (!response.ok) throw new Error(`${host} isn't a Librecord instance (HTTP ${response.status}).`);
     const body = await response.json().catch(() => null);
-    if (body?.software?.name !== "discord-oss") throw new Error(`${host} isn't a Discord OSS instance.`);
+    if (body?.software?.name !== "librecord") throw new Error(`${host} isn't a Librecord instance.`);
     const url = body.instance?.url ? new URL(body.instance.url).origin : origin;
     return { url, name: String(body.instance?.name ?? "").trim() || new URL(url).host, icon: typeof body.instance?.icon === "string" ? body.instance.icon : null };
 }
 
 function go(url: string) {
     localStorage.setItem(CURRENT_KEY, url);
-    if (window.DiscordOSSAndroid) window.DiscordOSSAndroid.openInstance(url);
+    if (window.LibrecordAndroid) window.LibrecordAndroid.openInstance(url);
     else location.replace(`${url}/channels/@me`);
 }
 
@@ -136,7 +136,7 @@ function render() {
         remove.addEventListener("click", () => {
             storeInstances(loadInstances().filter((saved) => saved.url !== instance.url));
             if (localStorage.getItem(CURRENT_KEY) === instance.url) localStorage.removeItem(CURRENT_KEY);
-            window.DiscordOSSAndroid?.removeInstance(instance.url);
+            window.LibrecordAndroid?.removeInstance(instance.url);
             render();
         });
         item.append(openButton, remove);

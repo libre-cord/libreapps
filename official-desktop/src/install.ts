@@ -6,8 +6,8 @@ import switcherSource from "../dist/switcher-js.txt";
 import switcherPage from "../dist/switcher-html.txt";
 import { backendSettings, discoverInstance } from "./instances";
 
-export const LOADER_LINE = 'try { require("./discord_oss_switcher/switcher.js"); } catch (error) { console.error("[discord-oss] switcher failed to load", error); }';
-const MODULE_FOLDER = "discord_oss_switcher";
+export const LOADER_LINE = 'try { require("./librecord_switcher/switcher.js"); } catch (error) { console.error("[librecord] switcher failed to load", error); }';
+const MODULE_FOLDER = "librecord_switcher";
 
 export interface Channel {
     name: string;
@@ -65,8 +65,8 @@ export function unpatchedLoader(text: string) {
 }
 
 const writeAtomically = (file: string, text: string) => {
-    writeFileSync(`${file}.discord-oss-tmp`, text);
-    renameSync(`${file}.discord-oss-tmp`, file);
+    writeFileSync(`${file}.librecord-tmp`, text);
+    renameSync(`${file}.librecord-tmp`, file);
 };
 
 export function install(folder: string) {
@@ -97,13 +97,13 @@ function setInstance(channel: Channel, origin: string | null) {
     writeAtomically(file, JSON.stringify(backendSettings(settings, origin), null, 2));
 }
 
-const usage = `Usage: discord-oss-switcher <install|uninstall|status> [--channel stable|ptb|canary|development] [--instance <address>|--discord]
+const usage = `Usage: librecord-switcher <install|uninstall|status> [--channel stable|ptb|canary|development] [--instance <address>|--discord]
 
   install     Add the Switch instance menu item and Cmd/Ctrl+Shift+O shortcut to the official Discord apps.
   uninstall   Remove it again.
   status      Show which apps were found and whether the switcher is installed.
   --channel   Only touch one app. Without it every installed app is changed.
-  --instance  Also point the app at this Discord OSS instance, for example discord.lifestyle.
+  --instance  Also point the app at this Librecord instance, for example discord.lifestyle.
   --discord   Also point the app back at discord.com.
 
 Restart Discord afterwards. A Discord update replaces the files, so run install again after one.`;

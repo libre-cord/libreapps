@@ -7,8 +7,8 @@
         android:shortcutShortLabel="@string/shortcut_switch_short"
         android:shortcutLongLabel="@string/shortcut_switch_long">
         <intent
-            android:action="org.discordoss.app.SWITCH_INSTANCE"
-            android:targetPackage="org.discordoss.app"
-            android:targetClass="org.discordoss.app.MainActivity" />
+            android:action="org.librecord.app.SWITCH_INSTANCE"
+            android:targetPackage="org.librecord.app"
+            android:targetClass="org.librecord.app.MainActivity" />
     </shortcut>
 </shortcuts>

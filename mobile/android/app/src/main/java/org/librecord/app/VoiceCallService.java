@@ -1,4 +1,4 @@
-package org.discordoss.app;
+package org.librecord.app;
 
 import android.app.Notification;
 import android.app.Service;
@@ -38,7 +38,7 @@ public class VoiceCallService extends Service {
         }
         if (wakeLock == null) {
             PowerManager power = (PowerManager) getSystemService(POWER_SERVICE);
-            wakeLock = power.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DiscordOSS:voice");
+            wakeLock = power.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Librecord:voice");
             wakeLock.setReferenceCounted(false);
             wakeLock.acquire(6 * 60 * 60 * 1000L);
         }

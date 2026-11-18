@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "discord-oss-official-desktop",
+      "name": "librecord-official-desktop",
       "devDependencies": {
         "@types/bun": "^1.3.2",
         "electron": "45.3.1",

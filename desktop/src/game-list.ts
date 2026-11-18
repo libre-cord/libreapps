@@ -19,7 +19,7 @@ interface WellKnown {
 }
 
 async function listUrl(origin: string, platform: GamePlatform) {
-    const response = await net.fetch(`${origin}/.well-known/discord-oss`, { headers: { accept: "application/json" } });
+    const response = await net.fetch(`${origin}/.well-known/librecord`, { headers: { accept: "application/json" } });
     const body = response.ok ? ((await response.json().catch(() => null)) as WellKnown | null) : null;
     const api = body?.api?.url ? new URL(body.api.url) : new URL("/api", origin);
     const version = /^\d+$/.test(body?.api?.default_version ?? "") ? body?.api?.default_version : "9";

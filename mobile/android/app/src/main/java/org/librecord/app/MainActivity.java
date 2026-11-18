@@ -1,4 +1,4 @@
-package org.discordoss.app;
+package org.librecord.app;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -117,13 +117,13 @@ public class MainActivity extends BridgeActivity {
         if (intent == null) return;
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
             openDeepLink(intent.getData());
-        } else if ("org.discordoss.app.SWITCH_INSTANCE".equals(intent.getAction())) {
+        } else if ("org.librecord.app.SWITCH_INSTANCE".equals(intent.getAction())) {
             openSwitcher(null, null);
         }
     }
 
     private void openDeepLink(Uri link) {
-        if (!"discord-oss".equals(link.getScheme())) return;
+        if (!"librecord".equals(link.getScheme())) return;
         String requested = link.getQueryParameter("instance");
         String host = link.getHost() == null ? "" : link.getHost();
         String path = "open".equals(host) || host.isEmpty() ? link.getQueryParameter("path") : "/" + host + (link.getPath() == null ? "" : link.getPath());
@@ -224,7 +224,7 @@ public class MainActivity extends BridgeActivity {
             if (isAppPage(url)) return super.shouldOverrideUrlLoading(view, request);
             if (isInstancePage(url)) return false;
             String scheme = request.getUrl().getScheme();
-            if ("discord-oss".equals(scheme)) {
+            if ("librecord".equals(scheme)) {
                 openDeepLink(request.getUrl());
                 return true;
             }

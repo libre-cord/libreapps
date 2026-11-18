@@ -1,4 +1,4 @@
-package org.discordoss.app;
+package org.librecord.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;

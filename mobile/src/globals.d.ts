@@ -6,7 +6,7 @@ interface SavedInstance {
 }
 
 interface Window {
-    DiscordOSSAndroid?: {
+    LibrecordAndroid?: {
         openInstance(url: string): void;
         removeInstance(url: string): void;
     };

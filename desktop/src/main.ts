@@ -9,9 +9,9 @@ import { registerScreenshare, screenshareFeatureFlags } from "./screenshare";
 import { forgetInstance, rememberInstance, saveSettings, settings, type WindowState } from "./store";
 import { registerRpc } from "./rpc";
 
-const PROTOCOL = "discord-oss";
-const APP_ID = "org.discordoss.app";
-const APP_NAME = "Discord OSS";
+const PROTOCOL = "librecord";
+const APP_ID = "org.librecord.app";
+const APP_NAME = "Librecord";
 const appRoot = join(__dirname, "..");
 const resource = (name: string) => join(appRoot, "resources", name);
 const preload = join(__dirname, "preload.js");
@@ -39,7 +39,7 @@ let stopRpc = () => {};
 
 app.setName(APP_NAME);
 if (process.platform === "win32") app.setAppUserModelId(APP_ID);
-app.userAgentFallback = app.userAgentFallback.replace(/\s?Electron\/\S+/, "").replace(/\s?(Discord OSS|discord-oss-desktop)\/\S+/i, "");
+app.userAgentFallback = app.userAgentFallback.replace(/\s?Electron\/\S+/, "").replace(/\s?(Librecord|librecord-desktop)\/\S+/i, "");
 app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
 app.commandLine.appendSwitch("disable-features", "HardwareMediaKeyHandling,MediaSessionService");
 app.commandLine.appendSwitch("enable-features", ["WebRTCPipeWireCapturer", ...screenshareFeatureFlags()].join(","));

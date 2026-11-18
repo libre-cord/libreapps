@@ -1,6 +1,6 @@
 {
-    "appId": "org.discordoss.app",
-    "appName": "Discord OSS",
+    "appId": "org.librecord.app",
+    "appName": "Librecord",
     "webDir": "www",
     "backgroundColor": "#1a1a1e",
     "loggingBehavior": "none",

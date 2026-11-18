@@ -19,7 +19,7 @@ interface ScreenSource {
 }
 
 interface Window {
-    discordOss: {
+    librecord: {
         platform: string;
         listInstances(): Promise<{ instances: SavedInstance[]; current: string | null } | null>;
         discoverInstance(url: string): Promise<InstanceResult>;

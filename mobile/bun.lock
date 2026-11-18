@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "discord-oss-mobile",
+      "name": "librecord-mobile",
       "dependencies": {
         "@capacitor/android": "8.6.2",
         "@capacitor/core": "8.6.2",

@@ -5,7 +5,7 @@ import { join } from "node:path";
 
 export const HIDDEN_FLAG = "--hidden";
 
-const linuxAutostartFile = () => join(process.env.XDG_CONFIG_HOME || join(homedir(), ".config"), "autostart", "discord-oss.desktop");
+const linuxAutostartFile = () => join(process.env.XDG_CONFIG_HOME || join(homedir(), ".config"), "autostart", "librecord.desktop");
 
 const linuxExecutable = () => process.env.APPIMAGE || process.execPath;
 
@@ -19,9 +19,9 @@ export function setOpenAtLogin(enabled: boolean) {
             [
                 "[Desktop Entry]",
                 "Type=Application",
-                "Name=Discord OSS",
+                "Name=Librecord",
                 `Exec="${linuxExecutable()}" ${HIDDEN_FLAG}`,
-                "Icon=discord-oss",
+                "Icon=librecord",
                 "X-GNOME-Autostart-enabled=true",
                 "",
             ].join("\n"),

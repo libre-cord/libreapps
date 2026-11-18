@@ -3,9 +3,8 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "discord-oss-desktop",
+      "name": "librecord-desktop",
       "dependencies": {
-        "@vencord/venmic": "^7.2.5",
         "arrpc": "^3.6.0",
       },
       "devDependencies": {
@@ -13,6 +12,9 @@
         "electron": "45.3.1",
         "electron-builder": "26.18.0",
         "typescript": "^5.9.3",
+      },
+      "optionalDependencies": {
+        "@vencord/venmic": "^7.2.5",
       },
     },
   },

@@ -1,4 +1,4 @@
-var discordOssFolder = __dirname;
+var librecordFolder = __dirname;
 
 // src/switcher.ts
 var import_electron = require("electron");
@@ -10,7 +10,7 @@ var LOCAL_HOST = /^(localhost|127\.\d+\.\d+\.\d+|\[::1\]|10\.\d+\.\d+\.\d+|192\.
 function normalizeInstanceUrl(input) {
   const text = input.trim();
   if (!text)
-    throw new Error("Enter the address of a Discord OSS instance.");
+    throw new Error("Enter the address of a Librecord instance.");
   const withScheme = /^[a-z][a-z0-9+.-]*:\/\//i.test(text) ? text : `${LOCAL_HOST.test(text.split("/")[0]) ? "http" : "https"}://${text}`;
   const url = new URL(withScheme);
   if (url.protocol !== "https:" && url.protocol !== "http:")
@@ -46,24 +46,24 @@ async function discoverInstance(input, fetcher) {
   const host = new URL(origin).host;
   let response;
   try {
-    response = await fetcher(`${origin}/.well-known/discord-oss`);
+    response = await fetcher(`${origin}/.well-known/librecord`);
   } catch {
     throw new Error(`Couldn't reach ${host}. Check the address and your connection.`);
   }
   if (!response.ok)
-    throw new Error(`${host} isn't a Discord OSS instance (HTTP ${response.status}).`);
+    throw new Error(`${host} isn't a Librecord instance (HTTP ${response.status}).`);
   const body = await response.json().catch(() => null);
-  if (body?.software?.name !== "discord-oss")
-    throw new Error(`${host} isn't a Discord OSS instance.`);
+  if (body?.software?.name !== "librecord")
+    throw new Error(`${host} isn't a Librecord instance.`);
   const url = body.instance?.url ? new URL(body.instance.url).origin : origin;
   return { url, name: body.instance?.name?.trim() || new URL(url).host };
 }
 
 // src/switcher.ts
-var ITEM_ID = "discord-oss-switch-instance";
-var moduleFolder = discordOssFolder;
+var ITEM_ID = "librecord-switch-instance";
+var moduleFolder = librecordFolder;
 var settingsFile = () => import_node_path.join(import_electron.app.getPath("userData"), "settings.json");
-var instancesFile = () => import_node_path.join(import_electron.app.getPath("userData"), "discord-oss-instances.json");
+var instancesFile = () => import_node_path.join(import_electron.app.getPath("userData"), "librecord-instances.json");
 var switcher = null;
 function readJson(file, fallback) {
   try {
@@ -73,8 +73,8 @@ function readJson(file, fallback) {
   }
 }
 function writeJson(file, value) {
-  import_node_fs.writeFileSync(`${file}.discord-oss-tmp`, JSON.stringify(value, null, 2));
-  import_node_fs.renameSync(`${file}.discord-oss-tmp`, file);
+  import_node_fs.writeFileSync(`${file}.librecord-tmp`, JSON.stringify(value, null, 2));
+  import_node_fs.renameSync(`${file}.librecord-tmp`, file);
 }
 function savedInstances() {
   const list = readJson(instancesFile(), []);
@@ -112,29 +112,29 @@ function openSwitcher() {
   switcher.loadFile(import_node_path.join(moduleFolder, "switcher.html"));
 }
 var fromSwitcher = (sender) => !!switcher && !switcher.isDestroyed() && sender === switcher.webContents;
-import_electron.ipcMain.handle("discord-oss:state", (event) => {
+import_electron.ipcMain.handle("librecord:state", (event) => {
   if (!fromSwitcher(event.sender))
     return null;
   return { current: currentInstance(readJson(settingsFile(), {})), instances: savedInstances(), channel: import_electron.app.getName() };
 });
-import_electron.ipcMain.handle("discord-oss:discover", async (event, input) => {
+import_electron.ipcMain.handle("librecord:discover", async (event, input) => {
   if (!fromSwitcher(event.sender))
     throw new Error("Not allowed.");
   return discoverInstance(String(input), (url) => import_electron.net.fetch(url, { headers: { accept: "application/json" } }));
 });
-import_electron.ipcMain.handle("discord-oss:switch", (event, instance) => {
+import_electron.ipcMain.handle("librecord:switch", (event, instance) => {
   if (!fromSwitcher(event.sender))
     return;
   switchTo(instance && typeof instance.url === "string" ? { url: instance.url, name: String(instance.name ?? instance.url) } : null);
 });
-import_electron.ipcMain.handle("discord-oss:forget", (event, url) => {
+import_electron.ipcMain.handle("librecord:forget", (event, url) => {
   if (!fromSwitcher(event.sender))
     return [];
   const list = savedInstances().filter((item) => item.url !== url);
   writeJson(instancesFile(), list);
   return list;
 });
-import_electron.ipcMain.on("discord-oss:close", (event) => {
+import_electron.ipcMain.on("librecord:close", (event) => {
   if (fromSwitcher(event.sender))
     switcher?.close();
 });

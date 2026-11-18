@@ -43,11 +43,11 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="discord-oss" />
+                <data android:scheme="librecord" />
             </intent-filter>
 
             <intent-filter>
-                <action android:name="org.discordoss.app.SWITCH_INSTANCE" />
+                <action android:name="org.librecord.app.SWITCH_INSTANCE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 

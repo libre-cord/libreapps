@@ -1,4 +1,4 @@
-package org.discordoss.app;
+package org.librecord.app;
 
 import android.Manifest;
 import android.app.NotificationChannel;

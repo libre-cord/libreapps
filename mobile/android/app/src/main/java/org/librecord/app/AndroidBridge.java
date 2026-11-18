@@ -1,4 +1,4 @@
-package org.discordoss.app;
+package org.librecord.app;
 
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -6,14 +6,14 @@ import java.util.function.Predicate;
 
 public class AndroidBridge {
 
-    static final String NAME = "DiscordOSSAndroid";
+    static final String NAME = "LibrecordAndroid";
 
     static final String PAGE_SCRIPT =
         "(() => {" +
-        "  if (window.__discordOssAndroid) return;" +
-        "  window.__discordOssAndroid = true;" +
+        "  if (window.__librecordAndroid) return;" +
+        "  window.__librecordAndroid = true;" +
         "  const live = new Set();" +
-        "  const update = () => { try { DiscordOSSAndroid.setInCall(live.size > 0); } catch {} };" +
+        "  const update = () => { try { LibrecordAndroid.setInCall(live.size > 0); } catch {} };" +
         "  const watch = (track) => {" +
         "    if (track.kind !== 'audio' || live.has(track)) return;" +
         "    live.add(track);" +
@@ -29,19 +29,19 @@ public class AndroidBridge {
         "  }" +
         "  if (!('Notification' in window)) {" +
         "    class AppNotification extends EventTarget {" +
-        "      static get permission() { return DiscordOSSAndroid.notificationsAllowed() ? 'granted' : 'denied'; }" +
+        "      static get permission() { return LibrecordAndroid.notificationsAllowed() ? 'granted' : 'denied'; }" +
         "      static requestPermission(callback) { const result = AppNotification.permission; if (callback) callback(result); return Promise.resolve(result); }" +
         "      constructor(title, options = {}) {" +
         "        super();" +
         "        this.title = String(title); this.body = String(options.body ?? ''); this.tag = String(options.tag ?? '');" +
         "        this.onclick = null; this.onclose = null; this.onshow = null; this.onerror = null;" +
-        "        if (!document.hasFocus()) DiscordOSSAndroid.notify(this.title, this.body, this.tag);" +
+        "        if (!document.hasFocus()) LibrecordAndroid.notify(this.title, this.body, this.tag);" +
         "      }" +
         "      close() {}" +
         "    }" +
         "    window.Notification = AppNotification;" +
         "  }" +
-        "  window.DiscordOSS = Object.freeze({ platform: 'android', openInstanceSwitcher: () => DiscordOSSAndroid.openSwitcher() });" +
+        "  window.Librecord = Object.freeze({ platform: 'android', openInstanceSwitcher: () => LibrecordAndroid.openSwitcher() });" +
         "})();";
 
     private final MainActivity activity;

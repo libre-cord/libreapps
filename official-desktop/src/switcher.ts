@@ -3,11 +3,11 @@ import { existsSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { backendSettings, currentInstance, discoverInstance, rememberInstance, type SavedInstance } from "./instances";
 
-const ITEM_ID = "discord-oss-switch-instance";
-declare const discordOssFolder: string;
-const moduleFolder = discordOssFolder;
+const ITEM_ID = "librecord-switch-instance";
+declare const librecordFolder: string;
+const moduleFolder = librecordFolder;
 const settingsFile = () => join(app.getPath("userData"), "settings.json");
-const instancesFile = () => join(app.getPath("userData"), "discord-oss-instances.json");
+const instancesFile = () => join(app.getPath("userData"), "librecord-instances.json");
 let switcher: BrowserWindow | null = null;
 
 function readJson<T>(file: string, fallback: T): T {
@@ -19,8 +19,8 @@ function readJson<T>(file: string, fallback: T): T {
 }
 
 function writeJson(file: string, value: unknown) {
-    writeFileSync(`${file}.discord-oss-tmp`, JSON.stringify(value, null, 2));
-    renameSync(`${file}.discord-oss-tmp`, file);
+    writeFileSync(`${file}.librecord-tmp`, JSON.stringify(value, null, 2));
+    renameSync(`${file}.librecord-tmp`, file);
 }
 
 function savedInstances(): SavedInstance[] {
@@ -61,25 +61,25 @@ function openSwitcher() {
 
 const fromSwitcher = (sender: WebContents) => !!switcher && !switcher.isDestroyed() && sender === switcher.webContents;
 
-ipcMain.handle("discord-oss:state", (event) => {
+ipcMain.handle("librecord:state", (event) => {
     if (!fromSwitcher(event.sender)) return null;
     return { current: currentInstance(readJson<Record<string, unknown>>(settingsFile(), {})), instances: savedInstances(), channel: app.getName() };
 });
-ipcMain.handle("discord-oss:discover", async (event, input: string) => {
+ipcMain.handle("librecord:discover", async (event, input: string) => {
     if (!fromSwitcher(event.sender)) throw new Error("Not allowed.");
     return discoverInstance(String(input), (url) => net.fetch(url, { headers: { accept: "application/json" } }));
 });
-ipcMain.handle("discord-oss:switch", (event, instance: SavedInstance | null) => {
+ipcMain.handle("librecord:switch", (event, instance: SavedInstance | null) => {
     if (!fromSwitcher(event.sender)) return;
     switchTo(instance && typeof instance.url === "string" ? { url: instance.url, name: String(instance.name ?? instance.url) } : null);
 });
-ipcMain.handle("discord-oss:forget", (event, url: string) => {
+ipcMain.handle("librecord:forget", (event, url: string) => {
     if (!fromSwitcher(event.sender)) return [];
     const list = savedInstances().filter((item) => item.url !== url);
     writeJson(instancesFile(), list);
     return list;
 });
-ipcMain.on("discord-oss:close", (event) => {
+ipcMain.on("librecord:close", (event) => {
     if (fromSwitcher(event.sender)) switcher?.close();
 });
 

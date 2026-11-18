@@ -3,7 +3,7 @@ import type { GamesUpdate, GamesWatch } from "./game-types";
 import type { MusicTrack, MusicWatch } from "./music-types";
 
 if (location.protocol === "file:") {
-    contextBridge.exposeInMainWorld("discordOss", {
+    contextBridge.exposeInMainWorld("librecord", {
         platform: process.platform,
         listInstances: () => ipcRenderer.invoke("switcher:list"),
         discoverInstance: (url: string) => ipcRenderer.invoke("switcher:discover", url),
@@ -15,7 +15,7 @@ if (location.protocol === "file:") {
     });
 } else {
     let linuxAudioUses = 0;
-    contextBridge.exposeInMainWorld("DiscordOSS", {
+    contextBridge.exposeInMainWorld("Librecord", {
         platform: process.platform,
         focusWindow: () => ipcRenderer.send("app:focus"),
         openInstanceSwitcher: () => ipcRenderer.send("app:switcher"),
@@ -78,7 +78,7 @@ if (location.protocol === "file:") {
             class AppNotification extends Native {
                 constructor(title, options) {
                     super(title, options);
-                    this.addEventListener("click", () => window.DiscordOSS.focusWindow());
+                    this.addEventListener("click", () => window.Librecord.focusWindow());
                 }
             }
             Object.defineProperty(AppNotification, "permission", { get: () => Native.permission });
