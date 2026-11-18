@@ -25,16 +25,8 @@ Every app finds and checks instances the same way: it reads `/.well-known/librec
 
 ## Develop
 
-Install Bun 1.4, then `bun install` in the folder you want to work on.
+Install Bun 1.4, then `bun install` in the folder you want to work on. Every app typechecks with `bun run typecheck`. [docs/building.md](docs/building.md) covers compiling and packaging each app: local builds per platform, pushing a tag to get all three from CI, and installing and upgrading the official desktop switcher.
 
-| Command | Where | What it does |
-| --- | --- | --- |
-| `bun run typecheck` | `desktop`, `mobile`, `official-desktop` | Typechecks the app. |
-| `bun run dist` | `desktop` | Builds and packages installers for every platform into `release`. |
-| `bun run installer` | `official-desktop` | Compiles the switcher installer into `dist`. |
-| `bun run build` | `mobile` | Compiles the TypeScript before Capacitor packs the APK from `mobile/android`. |
-
-Pushing a `v*` tag builds the desktop app on GitHub for macOS, Windows and Linux and collects the installers in a draft release, ready to publish.
 
 ## Credits
 
