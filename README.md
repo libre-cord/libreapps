@@ -44,4 +44,4 @@ Discord's desktop apps and their artwork belong to Discord Inc. The switcher onl
 
 ## License
 
-GNU Affero General Public License v3.0, as declared in each app's `package.json`. If you run a modified app for other people, you must offer them its source code.
+[GNU Affero General Public License v3.0](LICENSE). If you run a modified app for other people, you must offer them its source code.
