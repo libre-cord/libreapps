@@ -1,6 +1,6 @@
 # Building the apps
 
-How to compile and package each app from a checkout of this repository. Every app needs Bun 1.4 and runs `bun install` in its own folder first. Android is documented separately and not covered here.
+How to compile and package each app from a checkout of this repository. Every app needs Bun 1.4 and runs `bun install` in its own folder first. The Android app in `mobile/` is deliberately not documented here: it is planned to be replaced by a fork of Kettu Manager, which loads instances into Discord's own Android app instead of wrapping its own shell around the web client, so its build steps are not worth recording.
 
 ## Desktop app
 
