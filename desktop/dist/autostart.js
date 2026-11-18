@@ -7,7 +7,7 @@ const node_fs_1 = require("node:fs");
 const node_os_1 = require("node:os");
 const node_path_1 = require("node:path");
 exports.HIDDEN_FLAG = "--hidden";
-const linuxAutostartFile = () => (0, node_path_1.join)(process.env.XDG_CONFIG_HOME || (0, node_path_1.join)((0, node_os_1.homedir)(), ".config"), "autostart", "discord-oss.desktop");
+const linuxAutostartFile = () => (0, node_path_1.join)(process.env.XDG_CONFIG_HOME || (0, node_path_1.join)((0, node_os_1.homedir)(), ".config"), "autostart", "librecord.desktop");
 const linuxExecutable = () => process.env.APPIMAGE || process.execPath;
 function setOpenAtLogin(enabled) {
     if (process.platform === "linux") {
@@ -18,9 +18,9 @@ function setOpenAtLogin(enabled) {
         (0, node_fs_1.writeFileSync)(file, [
             "[Desktop Entry]",
             "Type=Application",
-            "Name=Discord OSS",
+            "Name=Librecord",
             `Exec="${linuxExecutable()}" ${exports.HIDDEN_FLAG}`,
-            "Icon=discord-oss",
+            "Icon=librecord",
             "X-GNOME-Autostart-enabled=true",
             "",
         ].join("\n"));

@@ -26,7 +26,7 @@ function initials(name) {
 async function openSaved(url) {
     busy(true);
     showError(null);
-    const result = await window.discordOss.openInstance(url);
+    const result = await window.librecord.openInstance(url);
     if (result.error) {
         busy(false);
         showError(result.error);
@@ -74,7 +74,7 @@ function render(instances, current) {
         remove.setAttribute("aria-label", `Remove ${instance.name}`);
         remove.textContent = "×";
         remove.addEventListener("click", async () => {
-            const state = await window.discordOss.removeInstance(instance.url);
+            const state = await window.librecord.removeInstance(instance.url);
             if (state)
                 render(state.instances, state.current);
         });
@@ -86,11 +86,11 @@ form.addEventListener("submit", (event) => {
     event.preventDefault();
     openSaved(address.value);
 });
-window.discordOss.onError((message) => showError(message));
+window.librecord.onError((message) => showError(message));
 const prefill = new URLSearchParams(location.search).get("prefill");
 if (prefill)
     address.value = prefill;
-window.discordOss.listInstances().then((state) => {
+window.librecord.listInstances().then((state) => {
     if (state)
         render(state.instances, state.current);
     if (!state?.instances.length || prefill)

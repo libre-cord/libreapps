@@ -62,7 +62,7 @@ function renderSources() {
 }
 function share() {
     if (selected)
-        window.discordOss.chooseScreenSource(selected, !audioRow.hidden && audioBox.checked);
+        window.librecord.chooseScreenSource(selected, !audioRow.hidden && audioBox.checked);
 }
 for (const tab of tabs) {
     tab.addEventListener("click", () => {
@@ -73,14 +73,14 @@ for (const tab of tabs) {
     });
 }
 shareButton.addEventListener("click", share);
-cancelButton.addEventListener("click", () => window.discordOss.chooseScreenSource(null, false));
+cancelButton.addEventListener("click", () => window.librecord.chooseScreenSource(null, false));
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape")
-        window.discordOss.chooseScreenSource(null, false);
+        window.librecord.chooseScreenSource(null, false);
     if (event.key === "Enter")
         share();
 });
-window.discordOss.screenSources().then((sources) => {
+window.librecord.screenSources().then((sources) => {
     allSources = sources;
     const firstScreen = sources.find((source) => source.kind === "screen");
     if (firstScreen)

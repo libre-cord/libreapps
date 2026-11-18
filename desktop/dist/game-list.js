@@ -9,7 +9,7 @@ const game_match_1 = require("./game-match");
 const REFRESH_MS = 12 * 3_600_000;
 const RETRY_MS = 10 * 60_000;
 async function listUrl(origin, platform) {
-    const response = await electron_1.net.fetch(`${origin}/.well-known/discord-oss`, { headers: { accept: "application/json" } });
+    const response = await electron_1.net.fetch(`${origin}/.well-known/librecord`, { headers: { accept: "application/json" } });
     const body = response.ok ? (await response.json().catch(() => null)) : null;
     const api = body?.api?.url ? new URL(body.api.url) : new URL("/api", origin);
     const version = /^\d+$/.test(body?.api?.default_version ?? "") ? body?.api?.default_version : "9";

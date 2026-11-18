@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 if (location.protocol === "file:") {
-    electron_1.contextBridge.exposeInMainWorld("discordOss", {
+    electron_1.contextBridge.exposeInMainWorld("librecord", {
         platform: process.platform,
         listInstances: () => electron_1.ipcRenderer.invoke("switcher:list"),
         discoverInstance: (url) => electron_1.ipcRenderer.invoke("switcher:discover", url),
@@ -15,7 +15,7 @@ if (location.protocol === "file:") {
 }
 else {
     let linuxAudioUses = 0;
-    electron_1.contextBridge.exposeInMainWorld("DiscordOSS", {
+    electron_1.contextBridge.exposeInMainWorld("Librecord", {
         platform: process.platform,
         focusWindow: () => electron_1.ipcRenderer.send("app:focus"),
         openInstanceSwitcher: () => electron_1.ipcRenderer.send("app:switcher"),
@@ -77,7 +77,7 @@ else {
             class AppNotification extends Native {
                 constructor(title, options) {
                     super(title, options);
-                    this.addEventListener("click", () => window.DiscordOSS.focusWindow());
+                    this.addEventListener("click", () => window.Librecord.focusWindow());
                 }
             }
             Object.defineProperty(AppNotification, "permission", { get: () => Native.permission });
