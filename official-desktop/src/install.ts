@@ -7,7 +7,9 @@ import switcherPage from "../dist/switcher-html.txt";
 import { backendSettings, discoverInstance } from "./instances";
 
 export const LOADER_LINE = 'try { require("./librecord_switcher/switcher.js"); } catch (error) { console.error("[librecord] switcher failed to load", error); }';
+const LEGACY_LOADER_LINE = 'try { require("./discord_oss_switcher/switcher.js"); } catch (error) { console.error("[discord-oss] switcher failed to load", error); }';
 const MODULE_FOLDER = "librecord_switcher";
+const LEGACY_MODULE_FOLDER = "discord_oss_switcher";
 
 export interface Channel {
     name: string;
@@ -52,16 +54,20 @@ export function coreFolders(channel: Channel, platform = process.platform, env =
     return [...new Set(found)];
 }
 
+const withoutLines = (text: string, lines: string[]) =>
+    text
+        .split("\n")
+        .filter((line) => !lines.some((each) => line.trim() === each))
+        .join("\n");
+
 export function patchedLoader(text: string) {
-    if (text.includes(LOADER_LINE)) return text;
-    return `${LOADER_LINE}\n${text}`;
+    const current = withoutLines(text, [LEGACY_LOADER_LINE]);
+    if (current.includes(LOADER_LINE)) return current;
+    return `${LOADER_LINE}\n${current}`;
 }
 
 export function unpatchedLoader(text: string) {
-    return text
-        .split("\n")
-        .filter((line) => line.trim() !== LOADER_LINE)
-        .join("\n");
+    return withoutLines(text, [LOADER_LINE, LEGACY_LOADER_LINE]);
 }
 
 const writeAtomically = (file: string, text: string) => {
@@ -75,6 +81,7 @@ export function install(folder: string) {
     writeFileSync(join(target, "switcher.js"), switcherSource);
     writeFileSync(join(target, "preload.js"), preloadSource);
     writeFileSync(join(target, "switcher.html"), switcherPage);
+    rmSync(join(folder, LEGACY_MODULE_FOLDER), { recursive: true, force: true });
     const loader = join(folder, "index.js");
     writeAtomically(loader, patchedLoader(readFileSync(loader, "utf8")));
 }
@@ -83,9 +90,13 @@ export function uninstall(folder: string) {
     const loader = join(folder, "index.js");
     writeAtomically(loader, unpatchedLoader(readFileSync(loader, "utf8")));
     rmSync(join(folder, MODULE_FOLDER), { recursive: true, force: true });
+    rmSync(join(folder, LEGACY_MODULE_FOLDER), { recursive: true, force: true });
 }
 
-export const isInstalled = (folder: string) => readFileSync(join(folder, "index.js"), "utf8").includes(LOADER_LINE);
+export const isInstalled = (folder: string) => {
+    const loader = readFileSync(join(folder, "index.js"), "utf8");
+    return loader.includes(LOADER_LINE) || loader.includes(LEGACY_LOADER_LINE);
+};
 
 function setInstance(channel: Channel, origin: string | null) {
     const file = join(profileFolder(channel), "settings.json");
@@ -134,7 +145,15 @@ async function main(args: string[]) {
             continue;
         }
         for (const folder of folders) {
-            if (command === "status") console.log(`${channel.label}: ${isInstalled(folder) ? "switcher installed" : "switcher not installed"} (${folder})`);
+            if (command === "status") {
+                const loader = readFileSync(join(folder, "index.js"), "utf8");
+                const state = loader.includes(LOADER_LINE)
+                    ? "switcher installed"
+                    : loader.includes(LEGACY_LOADER_LINE)
+                      ? "old discord-oss switcher installed, run install to upgrade or uninstall to remove"
+                      : "switcher not installed";
+                console.log(`${channel.label}: ${state} (${folder})`);
+            }
             if (command === "install") install(folder);
             if (command === "uninstall") uninstall(folder);
         }
