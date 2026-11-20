@@ -244,7 +244,32 @@ function createWindow() {
     });
     openCurrent();
 }
+function setZoom(contents, level) {
+    const next = Math.max(-5, Math.min(5, Math.round(level * 10) / 10));
+    contents.setZoomLevel(next);
+    (0, store_1.saveSettings)({ window: { ...(0, store_1.settings)().window, zoom: next } });
+}
+function bindZoomKeys(contents) {
+    contents.on("before-input-event", (event, input) => {
+        if (!input.control && !input.meta)
+            return;
+        const key = input.key.toLowerCase();
+        if (key === "=" || key === "+" || key === "add")
+            setZoom(contents, contents.getZoomLevel() + 0.5);
+        else if (key === "-" || key === "_" || key === "subtract")
+            setZoom(contents, contents.getZoomLevel() - 0.5);
+        else if (key === "0")
+            setZoom(contents, 0);
+        else
+            return;
+        event.preventDefault();
+    });
+}
 function secureContents(contents) {
+    bindZoomKeys(contents);
+    const zoom = (0, store_1.settings)().window.zoom;
+    if (typeof zoom === "number")
+        contents.setZoomLevel(zoom);
     contents.on("will-navigate", (event, url) => {
         if (isAppPage(url) || isInstanceUrl(url))
             return;
@@ -375,9 +400,9 @@ function updateAppMenu() {
                 { role: "forceReload" },
                 { role: "toggleDevTools" },
                 { type: "separator" },
-                { role: "resetZoom" },
-                { role: "zoomIn" },
-                { role: "zoomOut" },
+                { role: "resetZoom", accelerator: "CmdOrCtrl+0" },
+                { role: "zoomIn", accelerator: "CmdOrCtrl+=" },
+                { role: "zoomOut", accelerator: "CmdOrCtrl+-" },
                 { type: "separator" },
                 { role: "togglefullscreen" },
             ],

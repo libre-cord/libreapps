@@ -15,6 +15,7 @@ export interface WindowState {
     width: number;
     height: number;
     maximized: boolean;
+    zoom?: number;
 }
 
 export interface Settings {

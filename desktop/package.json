@@ -1,11 +1,11 @@
 {
     "name": "librecord-desktop",
     "productName": "Librecord",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "repository": {
-    "type": "git",
-    "url": "https://github.com/libre-cord/libreapps.git"
-  },
+        "type": "git",
+        "url": "https://github.com/libre-cord/libreapps.git"
+    },
     "description": "Librecord for macOS, Windows and Linux",
     "author": "Librecord contributors",
     "homepage": "https://github.com/libre-cord",
@@ -21,14 +21,15 @@
     "optionalDependencies": {
         "@vencord/venmic": "^7.2.5"
     },
-
     "devDependencies": {
         "@types/node": "^24.10.1",
         "electron": "45.3.1",
         "electron-builder": "26.18.0",
         "typescript": "^5.9.3"
     },
-    "trustedDependencies": ["electron"],
+    "trustedDependencies": [
+        "electron"
+    ],
     "dependencies": {
         "arrpc": "^3.6.0"
     }
